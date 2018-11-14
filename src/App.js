@@ -1,22 +1,27 @@
 import React, { Component } from "react";
-import axios from "axios";
+import axiosGithubGraphql from "./axiosGithubGraphql";
+import Organization from "./Organization";
 
-const axiosGithubGraphql = axios.create({
-    baseURL: "https://api.github.com/graphql",
-    headers: {
-        Authorization: `bearer ${process.env.GITHUB_ACCESS_TOKEN}`
+const GET_ORGANIZATION = `
+    {
+        organization(login: "freeCodeCamp") {
+            name
+            url
+        }
     }
-});
+`;
 
 const TITLE = "React GraphQL Github Client";
 
 class App extends Component {
     state = {
-        path: "freeCodeCamp/freeCodeCamp"
+        path: "freeCodeCamp/freeCodeCamp",
+        organization: null,
+        errors: null
     };
 
     componentDidMount() {
-        //fetch
+        this.onFetchFromGithub();
     }
 
     onChange = event => {
@@ -29,8 +34,17 @@ class App extends Component {
         event.preventDefault();
     };
 
+    onFetchFromGithub = () => {
+        axiosGithubGraphql.post("", { query: GET_ORGANIZATION }).then(result => {
+            this.setState(() => ({
+                organization: result.data.data.organization,
+                errors: result.data.errors
+            }));
+        });
+    };
+
     render() {
-        const { path } = this.state;
+        const { path, organization, errors } = this.state;
         return (
             <div>
                 <h1>{TITLE}</h1>
@@ -46,6 +60,10 @@ class App extends Component {
                     />
                     <button type="submit">Search</button>
                 </form>
+
+                <hr />
+
+                {organization && <Organization organization={organization} errors={errors} />}
             </div>
         );
     }
