@@ -36,6 +36,8 @@ class App extends Component {
     this.onFetchFromGithub(this.state.path, endCursor);
   };
 
+  onStarRepository = (repositoryId, viewerHasStarred) => {};
+
   resolveIssuesQuery = (queryResult, cursor) => state => {
     const { data, errors } = queryResult.data;
 
@@ -89,6 +91,7 @@ class App extends Component {
             organization={organization}
             errors={errors}
             onFetchMoreIssues={this.onFetchMoreIssues}
+            onStarRepository={this.onStarRepository}
           />
         )}
       </div>
