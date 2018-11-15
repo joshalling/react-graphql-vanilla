@@ -1,15 +1,7 @@
 import React, { Component } from "react";
-import axiosGithubGraphql from "./axiosGithubGraphql";
 import Organization from "./Organization";
-
-const GET_ORGANIZATION = `
-    {
-        organization(login: "freeCodeCamp") {
-            name
-            url
-        }
-    }
-`;
+import axiosGithubGraphql from "./axiosGithubGraphql";
+import { GET_ORGANIZATION } from "./query";
 
 const TITLE = "React GraphQL Github Client";
 
