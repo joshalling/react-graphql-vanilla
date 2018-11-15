@@ -6,6 +6,15 @@ export const GET_ORGANIZATION = `
             repository(name: "freeCodeCamp") {
                 name
                 url
+                issues(last: 5) {
+                    edges {
+                        node {
+                            id
+                            title
+                            url
+                        }
+                    }
+                }
             }
         }
     }

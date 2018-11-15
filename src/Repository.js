@@ -6,6 +6,13 @@ const Repository = ({ repository }) => (
             <strong>In Respository: </strong>
             <a href={repository.url}>{repository.name}</a>
         </p>
+        <ul>
+            {repository.issues.edges.map(({ node: issue }) => (
+                <li key={issue.id}>
+                    <a href={issue.url}>{issue.title}</a>
+                </li>
+            ))}
+        </ul>
     </div>
 );
 
