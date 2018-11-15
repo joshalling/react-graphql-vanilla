@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Organization from "./Organization";
 import axiosGithubGraphql from "./axiosGithubGraphql";
-import { GET_ORGANIZATION } from "./query";
+import { GET_ISSUES_OF_REPOSITORY } from "./query";
 
 const TITLE = "React GraphQL Github Client";
 
@@ -13,21 +13,30 @@ class App extends Component {
   };
 
   componentDidMount() {
-    this.onFetchFromGithub();
+    this.onFetchFromGithub(this.state.path);
   }
+
+  getIssuesOfRepository = path => {
+    const [organization, repository] = path.split("/");
+
+    return axiosGithubGraphql.post("", {
+      query: GET_ISSUES_OF_REPOSITORY,
+      variables: { organization, repository }
+    });
+  };
 
   onChange = event => {
     this.setState({ path: event.target.value });
   };
 
   onSubmit = event => {
-    //fetch data
+    this.onFetchFromGithub(this.state.path);
 
     event.preventDefault();
   };
 
-  onFetchFromGithub = () => {
-    axiosGithubGraphql.post("", { query: GET_ORGANIZATION }).then(result => {
+  onFetchFromGithub = path => {
+    this.getIssuesOfRepository(path).then(result => {
       this.setState(() => ({
         organization: result.data.data.organization,
         errors: result.data.errors

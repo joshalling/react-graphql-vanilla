@@ -1,21 +1,21 @@
-export const GET_ORGANIZATION = `
-    {
-        organization(login: "freeCodeCamp") {
-            name
-            url
-            repository(name: "freeCodeCamp") {
-                name
-                url
-                issues(last: 5) {
-                    edges {
-                        node {
-                            id
-                            title
-                            url
-                        }
-                    }
-                }
+export const GET_ISSUES_OF_REPOSITORY = `
+  query ($organization: String!, $repository: String!){
+    organization(login: $organization) {
+      name
+      url
+      repository(name: $repository) {
+        name
+        url
+        issues(last: 5) {
+          edges {
+            node {
+              id
+              title
+              url
             }
+          }
         }
+      }
     }
+  }
 `;
