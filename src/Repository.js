@@ -1,6 +1,6 @@
 import React from "react";
 
-const Repository = ({ repository }) => (
+const Repository = ({ repository, onFetchMoreIssues }) => (
   <div>
     <p>
       <strong>In Respository: </strong>
@@ -20,6 +20,7 @@ const Repository = ({ repository }) => (
         </li>
       ))}
     </ul>
+    {repository.issues.pageInfo.hasNextPage && <button onClick={onFetchMoreIssues}>More</button>}
   </div>
 );
 

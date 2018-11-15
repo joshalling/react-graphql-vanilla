@@ -1,12 +1,12 @@
 export const GET_ISSUES_OF_REPOSITORY = `
-  query ($organization: String!, $repository: String!){
+  query ($organization: String!, $repository: String!, $cursor: String){
     organization(login: $organization) {
       name
       url
       repository(name: $repository) {
         name
         url
-        issues(last: 5) {
+        issues(first: 5, after: $cursor, states: [OPEN]) {
           edges {
             node {
               id
@@ -21,6 +21,11 @@ export const GET_ISSUES_OF_REPOSITORY = `
                 }
               }
             }
+          }
+          totalCount,
+          pageInfo {
+            endCursor
+            hasNextPage
           }
         }
       }
