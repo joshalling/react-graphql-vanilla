@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Organization from "./Organization";
-import { getIssuesOfRepository } from "./graphqlService";
+import { getIssuesOfRepository, addStarToRepository } from "./graphqlService";
 
 const TITLE = "React GraphQL Github Client";
 
@@ -36,7 +36,26 @@ class App extends Component {
     this.onFetchFromGithub(this.state.path, endCursor);
   };
 
-  onStarRepository = (repositoryId, viewerHasStarred) => {};
+  onStarRepository = (repositoryId, viewerHasStarred) => {
+    addStarToRepository(repositoryId).then(result => {
+      this.setState(this.resolveAddStar(result));
+    });
+  };
+
+  resolveAddStar = result => state => {
+    const { viewerHasStarred } = result.data.data.addStar.starrable;
+
+    return {
+      ...state,
+      organization: {
+        ...state.organization,
+        repository: {
+          ...state.organization.repository,
+          viewerHasStarred
+        }
+      }
+    };
+  };
 
   resolveIssuesQuery = (queryResult, cursor) => state => {
     const { data, errors } = queryResult.data;
