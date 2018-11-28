@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Organization from "./Organization";
-import { getIssuesOfRepository, addStarToRepository } from "./graphqlService";
+import { getIssuesOfRepository, toggleStar } from "./graphqlService";
 
 const TITLE = "React GraphQL Github Client";
 
@@ -37,13 +37,15 @@ class App extends Component {
   };
 
   onStarRepository = (repositoryId, viewerHasStarred) => {
-    addStarToRepository(repositoryId).then(result => {
-      this.setState(this.resolveAddStar(result));
+    toggleStar(repositoryId, viewerHasStarred).then(result => {
+      this.setState(this.resolveStar(result, viewerHasStarred));
     });
   };
 
-  resolveAddStar = result => state => {
-    const { viewerHasStarred } = result.data.data.addStar.starrable;
+  resolveStar = result => state => {
+    const { viewerHasStarred } = state.organization.repository.viewerHasStarred
+      ? result.data.data.removeStar.starrable
+      : result.data.data.addStar.starrable;
 
     return {
       ...state,

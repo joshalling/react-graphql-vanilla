@@ -1,5 +1,5 @@
 import axiosGithubGraphql from "./axiosGithubGraphql";
-import { GET_ISSUES_OF_REPOSITORY, ADD_STAR } from "./query";
+import { ADD_STAR, GET_ISSUES_OF_REPOSITORY, REMOVE_STAR } from "./query";
 
 export const getIssuesOfRepository = (path, cursor) => {
   const [organization, repository] = path.split("/");
@@ -10,9 +10,9 @@ export const getIssuesOfRepository = (path, cursor) => {
   });
 };
 
-export const addStarToRepository = repositoryId => {
+export const toggleStar = (repositoryId, viewerHasStarred) => {
   return axiosGithubGraphql.post("", {
-    query: ADD_STAR,
+    query: viewerHasStarred ? REMOVE_STAR : ADD_STAR,
     variables: { repositoryId }
   });
 };
