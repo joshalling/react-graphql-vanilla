@@ -7,7 +7,7 @@ const Repository = ({ repository, onFetchMoreIssues, onStarRepository }) => (
       <a href={repository.url}>{repository.name}</a>
     </p>
     <button onClick={() => onStarRepository(repository.id, repository.viewerHasStarred)}>
-      {repository.viewerHasStarred ? "Unstar" : "Star"}
+      {repository.stargazers.totalCount} {repository.viewerHasStarred ? "Unstar" : "Star"}
     </button>
     <ul>
       {repository.issues.edges.map(({ node: issue }) => (

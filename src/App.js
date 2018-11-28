@@ -43,7 +43,7 @@ class App extends Component {
   };
 
   resolveStar = result => state => {
-    const { viewerHasStarred } = state.organization.repository.viewerHasStarred
+    const { stargazers, viewerHasStarred } = state.organization.repository.viewerHasStarred
       ? result.data.data.removeStar.starrable
       : result.data.data.addStar.starrable;
 
@@ -53,7 +53,8 @@ class App extends Component {
         ...state.organization,
         repository: {
           ...state.organization.repository,
-          viewerHasStarred
+          viewerHasStarred,
+          stargazers
         }
       }
     };
